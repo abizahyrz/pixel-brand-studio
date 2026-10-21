@@ -488,7 +488,7 @@ function tabs() {
     const l = items[i], row = document.createElement('div'); row.className = 'lay';
     const nm = l.type === 'text' ? 'T ' + (l.text.split('\n')[0] || '(kosong)') : '\u25a3 ' + (l.name || 'gambar');
     mk(row, l.vis ? '\ud83d\udc41' : '\u2013', () => { l.vis = !l.vis; render(); tabs(); });
-    mk(row, nm.slice(0, 16), () => { cur = i; sync(); render(); }, 'nm' + (i === cur ? ' on' : ''));
+    mk(row, nm.slice(0, 28), () => { cur = i; sync(); render(); }, 'nm' + (i === cur ? ' on' : ''));
     mk(row, '\u25b2', () => move(i, 1)); mk(row, '\u25bc', () => move(i, -1));
     el.appendChild(row);
   }

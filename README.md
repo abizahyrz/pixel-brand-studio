@@ -4,6 +4,8 @@ Pembuat thumbnail gratis dengan gaya pixel art, yang jalan sepenuhnya di browser
 
 **Coba langsung:** https://abizahyrz.github.io/pixel-brand-studio/
 
+![Pixel Brand & Thumbnail Studio](screenshot.png)
+
 *A free, browser-only pixel-style thumbnail maker. No login, no generative AI, nothing leaves your device.*
 
 ## Cocok untuk
