@@ -1,30 +1,51 @@
 # Pixel Brand & Thumbnail Studio
 
+Pembuat thumbnail gratis dengan gaya pixel art, yang jalan sepenuhnya di browser. Tanpa login, tanpa AI generatif: kamu yang mengatur teks, warna, dan karakter, jadi thumbnail-mu tetap konsisten dengan brand-mu.
+
 **Coba langsung:** https://abizahyrz.github.io/pixel-brand-studio/
 
-Pembuat thumbnail gratis yang jalan sepenuhnya di browser. Tanpa login, tanpa server, tanpa AI generatif: kamu yang mengatur teks, warna, dan karakter, jadi hasilnya konsisten dengan brand-mu.
+*A free, browser-only pixel-style thumbnail maker. No login, no generative AI, nothing leaves your device.*
 
-*A free, browser-only thumbnail maker. No login, no server, no generative AI. You control the text, colors, and character, so your thumbnails stay on-brand.*
+## Cocok untuk
+
+Kreator yang ingin thumbnail dengan tipografi yang menyatu dengan karakternya: VTuber, YouTuber, kreator pixel art, dan siapa pun yang tidak mau thumbnail-nya terlihat seperti hasil generate AI.
 
 ## Fitur
 
-- Teks pixel dengan tiga gaya: **chunky** (outline + shading), **slim**, dan **retro shadow**
-- Banyak teks, masing-masing dengan ukuran, gaya, warna, dan posisi sendiri
-- Kanvas fleksibel: 16:9, 9:16, 1:1, 4:5, 3:1, atau ukuran kustom
-- Layer teks dan gambar: pilih, geser, urutkan, sembunyikan, duplikat, plus alat pilih di kanvas
-- Upload gambar (gambar besar diperkecil lewat slider Resolusi) dan karakter contoh bawaan
-- Palet warna otomatis dari karakter
-- Pengecek kontras (rumus WCAG) dan preview ukuran feed
-- Import font sendiri (`.ttf`, `.otf`, `.woff`, `.woff2`)
-- Ekspor PNG 1280×720 atau 1920×1080
-- Bantuan romaji untuk teks katakana/hiragana (tidak ikut tergambar di thumbnail)
+- **Teks pixel** dengan tiga gaya: chunky (outline + bayangan bawah), slim, dan retro shadow
+- **Import font sendiri** (`.ttf`, `.otf`, `.woff`, `.woff2`)
+- **Layer** teks dan gambar: pilih, geser, urutkan, sembunyikan, duplikat
+- **Gambar halus atau pixel:** ilustrasi tetap tajam, atau diubah jadi pixel art dengan slider resolusi
+- **Palet warna otomatis** dari karakter kamu
+- **Pengecek kontras** supaya teks tetap terbaca
+- **Preview ukuran feed** untuk melihat tampilan thumbnail saat kecil
+- **Ukuran standar platform:** YouTube, Shorts/TikTok/Reels, Instagram, X, Facebook, atau ukuran kustom
+- **Ekspor PNG** sesuai ukuran asli atau 2×
+- **Pintasan keyboard:** `T` teks, `I` gambar, `Ctrl+D` duplikat, `Del` hapus, `[` `]` urutan, panah untuk menggeser
+
+## Cara pakai
+
+1. Pilih ukuran kanvas, misalnya YouTube 1280×720.
+2. Tambahkan gambar karakter atau latar, lalu tambahkan teks.
+3. Atur gaya dan warna, cek kontras dan preview feed.
+4. Unduh PNG.
 
 ## Privasi
 
-- Tidak ada login, analitik, atau pelacakan.
-- Gambar, teks, dan font diproses di browser dan tidak diunggah ke mana pun.
-- Satu-satunya permintaan keluar: memuat font dari Google Fonts. Kalau ingin nol permintaan eksternal, unduh font Pixelify Sans dan DotGothic16, lalu tanam dengan `@font-face`.
-- Font yang kamu import adalah tanggung jawabmu, pastikan lisensinya mengizinkan penggunaan itu.
+Semua diproses di browser kamu. Tidak ada login, analitik, atau pelacakan, dan gambar, teks, maupun font tidak diunggah ke mana pun. Satu-satunya permintaan keluar adalah memuat font bawaan dari Google Fonts.
+
+## Jalankan sendiri
+
+Proyek ini satu file HTML. Buka `index.html` di browser, atau jalankan server lokal:
+
+```
+npx serve .
+```
+
+## Dukung & kontak
+
+Kalau tool ini berguna, kamu bisa mendukung lewat [Ko-fi](https://ko-fi.com/rookie25109).
+Saran dan laporan bug: buka [Issues](https://github.com/abizahyrz/pixel-brand-studio/issues), atau hubungi [@abizahyrz di X](https://x.com/abizahyrz) atau Discord `abizahy25`.
 
 ## Lisensi
 
