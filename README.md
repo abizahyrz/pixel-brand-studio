@@ -1,5 +1,7 @@
 # Pixel Brand & Thumbnail Studio
 
+**Coba langsung:** https://abizahyrz.github.io/pixel-brand-studio/
+
 Pembuat thumbnail gratis yang jalan sepenuhnya di browser. Tanpa login, tanpa server, tanpa AI generatif: kamu yang mengatur teks, warna, dan karakter, jadi hasilnya konsisten dengan brand-mu.
 
 *A free, browser-only thumbnail maker. No login, no server, no generative AI. You control the text, colors, and character, so your thumbnails stay on-brand.*
