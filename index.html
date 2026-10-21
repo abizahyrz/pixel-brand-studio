@@ -45,6 +45,10 @@ kbd{font:11px/1.4 ui-monospace,Consolas,monospace;border:1px solid var(--bd);bor
 .foot{max-width:1200px;margin:24px auto 8px;text-align:center}
 .kofi{display:inline-block;background:#29abe0;color:#04202c;padding:10px 18px;border-radius:8px;font-weight:700;text-decoration:none}
 .kofi:hover{filter:brightness(1.1)}
+.fh{font:700 14px "Pixelify Sans",monospace;color:var(--ac);margin:0 0 10px}
+.links{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:12px}
+.lnk{display:inline-block;color:var(--fg);border:1px solid var(--bd);background:var(--card);padding:10px 18px;border-radius:8px;font-weight:700;text-decoration:none}
+.lnk:hover{border-color:var(--ac)}
 small{color:var(--mut)}
 </style>
 </head>
@@ -166,12 +170,21 @@ small{color:var(--mut)}
 </div>
 
 <footer class="foot">
-  <a class="kofi" id="kofi" href="https://ko-fi.com/rookie25109" target="_blank" rel="noopener">☕ Support me di Ko-fi</a>
-  <p><small>Semua diproses di browser kamu. Tanpa login, tanpa pelacakan. Gambar dan teks tidak dikirim ke server mana pun (kecuali tombol “Artinya apa?” yang hanya ada di claude.ai).</small></p>
+  <h2 class="fh">Kontak</h2>
+  <div class="links">
+    <a class="lnk" href="https://x.com/abizahyrz" target="_blank" rel="noopener">𝕏 @abizahyrz</a>
+    <a class="lnk" id="discord" href="#" target="_blank" rel="noopener" hidden>Discord</a>
+    <a class="kofi" id="kofi" href="https://ko-fi.com/rookie25109" target="_blank" rel="noopener">☕ Support me di Ko-fi</a>
+  </div>
+  <p><small>© <span id="yr">2026</span> @abizahyrz · Kode MIT. Semua diproses di browser kamu. Tanpa login, tanpa pelacakan. Gambar dan teks tidak dikirim ke server mana pun (kecuali tombol “Artinya apa?” yang hanya ada di claude.ai).</small></p>
 </footer>
 
 <script>
 const $ = id => document.getElementById(id);
+// Kontak: isi DISCORD dengan tautan undangan/profilmu supaya tombolnya muncul
+const DISCORD = '';
+if (DISCORD) { const a = $('discord'); a.href = DISCORD; a.hidden = false; }
+$('yr').textContent = new Date().getFullYear();
 
 /* ---------- Grid: semua gambar dibuat di kanvas kecil 320x180 (1 sel = 1 piksel),
    baru diperbesar dengan kelipatan bulat. Itu yang menjaga semuanya tajam. ---------- */
