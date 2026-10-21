@@ -479,11 +479,10 @@ function sync() {
 function tabs() {
   const el = $('layers'); el.innerHTML = '';
   const mk = (p, label, fn, cls) => { const b = document.createElement('button'); b.textContent = label; if (cls) b.className = cls; b.onclick = fn; p.appendChild(b); };
-  if (!items.length) {   // daftar kosong: tawarkan tambah layer langsung di sini
-    const t = document.createElement('small'), r = document.createElement('div'); r.className = 'row';
-    t.textContent = 'Belum ada layer. Tambahkan:'; el.appendChild(t);
-    mk(r, '\uff0b Teks', () => $('addT').click()); mk(r, '\ud83d\uddbc Gambar', () => $('file').click()); mk(r, '\uff0b Karakter contoh', () => $('sample').click());
-    el.appendChild(r); return;
+  if (!items.length) {   // daftar kosong: tombol tambah ada di bawah daftar
+    const t = document.createElement('small');
+    t.textContent = 'Belum ada layer. Tambahkan lewat tombol di bawah.'; el.appendChild(t);
+    return;
   }
   for (let i = items.length - 1; i >= 0; i--) {
     const l = items[i], row = document.createElement('div'); row.className = 'lay';
