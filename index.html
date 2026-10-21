@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indonesia Blackout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background-color: #f8fafc; }
+        summary { cursor: pointer; list-style: none; }
+        summary::-webkit-details-marker { display: none; }
+        details[open] .chev { transform: rotate(90deg); }
+        .chev { transition: transform .15s; }
+    </style>
+</head>
+<body class="text-slate-800 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200 mb-6 flex flex-col md:flex-row justify-between md:items-center gap-3">
+            <div>
+                <h1 class="text-3xl font-extrabold text-slate-900">Indonesia <span class="text-blue-600">Blackout</span></h1>
+                <p class="text-slate-500 mt-1">Isu yang berdampak ke masyarakat luas. Tekan judul untuk membuka detail.</p>
+            </div>
+            <div class="text-sm text-slate-500">Diperbarui: <span id="upd" class="font-semibold text-slate-700">-</span></div>
+        </div>
+
+        <div id="status" class="hidden mb-6 p-3 rounded border text-sm"></div>
+
+        <div id="pola-box" class="hidden mb-6 bg-purple-50 border border-purple-200 p-5 rounded-lg">
+            <h2 class="font-bold text-purple-900 mb-1">🧠 Pola yang terlihat</h2>
+            <div id="pola" class="text-sm text-purple-800 leading-relaxed"></div>
+        </div>
+
+        <div id="news" class="space-y-3"></div>
+        <p class="text-xs text-slate-400 mt-6 text-center">Daftar isu diambil dari RSS media dan diperbarui server tiap 30 menit. Penerbit milik pemerintah dan BUMN disaring. Ringkasan oleh AI bisa keliru, jadi buka tautan sumbernya.</p>
+    </div>
+
+    <script>
+        const $ = id => document.getElementById(id);
+        const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        const nl2br = s => esc(s).replace(/\n/g, '<br>');
+        const safeUrl = u => { try { const x = new URL(u); return /^https?:$/.test(x.protocol) ? x.href : null; } catch { return null; } };
+        const fmt = iso => iso ? new Date(iso).toLocaleString('id-ID', { timeZone: 'Asia/Jakarta', dateStyle: 'medium', timeStyle: 'short' }) + ' WIB' : '-';
+        let lastUpdated = null;
+
+        function status(msg) {
+            const el = $('status');
+            el.className = 'mb-6 p-3 rounded border text-sm bg-red-50 border-red-200 text-red-700';
+            el.textContent = msg;
+        }
+
+        async function load() {
+            try {
+                const r = await fetch('/api/news', { cache: 'no-store' });
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                const d = await r.json();
+                $('upd').textContent = fmt(d.updated);
+                if (d.error) status(d.error); else $('status').className = 'hidden';
+                if (d.updated === lastUpdated) return;
+                lastUpdated = d.updated;
+                $('pola-box').classList.toggle('hidden', !d.pola);
+                $('pola').innerHTML = nl2br(d.pola || '');
+                render(d.issues || []);
+            } catch (e) {
+                status('Tidak bisa memuat data (' + e.message + '). Coba lagi sebentar.');
+            }
+        }
+
+        function render(issues) {
+            if (!issues.length) {
+                $('news').innerHTML = '<div class="p-4 bg-white rounded border text-center text-slate-500 italic">Belum ada isu. Server sedang menyiapkan data, coba lagi dalam 1-2 menit.</div>';
+                return;
+            }
+            $('news').innerHTML = issues.map(n => {
+                const links = (n.sources || []).map(s => safeUrl(s.url)
+                    ? `<a href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener noreferrer" class="text-xs bg-blue-100 text-blue-700 px-3 py-1.5 rounded hover:bg-blue-200 font-semibold">🔗 ${esc(s.title)}</a>` : '').join('');
+                const tag = (cls, t) => `<span class="${cls} px-2 py-0.5 rounded text-xs">${esc(t)}</span>`;
+                return `
+                <details class="bg-white border border-slate-200 rounded-lg shadow-sm">
+                    <summary class="p-4 flex items-start gap-3">
+                        <span class="chev text-slate-400 mt-1">▶</span>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg text-slate-800 leading-snug">${esc(n.title)}</h3>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                ${n.media ? tag('bg-slate-100 text-slate-600', n.media + ' media') : ''}
+                                ${n.impact && n.impact.length ? tag('bg-red-100 text-red-700', 'Dampak: ' + n.impact.join(', ')) : ''}
+                                ${n.topic ? tag('bg-amber-100 text-amber-800', 'Topik pantauan: ' + n.topic) : ''}
+                                ${n.trend ? tag('bg-green-100 text-green-800', 'Naik di Google Trends') : ''}
+                            </div>
+                        </div>
+                        <span class="text-xs text-slate-400 shrink-0">${esc(fmt(n.time))}</span>
+                    </summary>
+                    <div class="px-4 pb-4 pl-10 text-sm text-slate-700 leading-relaxed border-t border-slate-100 pt-3">
+                        <p class="mb-3">${esc(n.content)}</p>
+                        ${n.detail ? `<div class="mb-3 p-3 bg-slate-50 rounded border border-slate-100"><div class="font-semibold mb-1">Judul dari tiap media</div>${nl2br(n.detail)}</div>` : ''}
+                        ${n.viewpoint ? `<div class="mb-3 p-3 bg-blue-50 rounded border border-blue-100 text-blue-800"><div class="font-semibold mb-1">Sudut pandang</div>${nl2br(n.viewpoint)}</div>` : ''}
+                        <div class="flex flex-wrap gap-2">${links || '<span class="text-xs text-slate-400">Sumber tidak tersedia.</span>'}</div>
+                    </div>
+                </details>`;
+            }).join('');
+        }
+
+        load();
+        setInterval(load, 5 * 60 * 1000);
+    </script>
+</body>
+</html>
