@@ -1,106 +1,585 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Indonesia Blackout</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background-color: #f8fafc; }
-        summary { cursor: pointer; list-style: none; }
-        summary::-webkit-details-marker { display: none; }
-        details[open] .chev { transform: rotate(90deg); }
-        .chev { transition: transform .15s; }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pixel Brand &amp; Thumbnail Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&family=DotGothic16&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f3fa;--fg:#14143a;--card:#fff;--mut:#5a5a7a;--bd:#d6d6e8;--ac:#b8267f;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#00003a;--fg:#eeeeee;--card:#0a0a5c;--mut:#a9a9d6;--bd:#26268a;--ac:#f784c5;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#00003a;--fg:#eeeeee;--card:#0a0a5c;--mut:#a9a9d6;--bd:#26268a;--ac:#f784c5;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;padding:16px}
+h1{font:700 22px/1.2 "Pixelify Sans",monospace;margin:0 0 4px}
+.sub{color:var(--mut);margin:0 0 16px}
+.wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;max-width:1200px;margin:auto}
+.stage{flex:1 1 560px;min-width:0}
+.panel{flex:1 1 300px;max-width:420px;display:grid;gap:12px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px}
+.card h2{font:700 14px "Pixelify Sans",monospace;margin:0 0 8px;color:var(--ac)}
+#cv{width:100%;height:auto;image-rendering:pixelated;display:block;border:2px solid var(--bd);touch-action:none;cursor:move}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0}
+label{font-size:13px;color:var(--mut)}
+textarea,select,button{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:6px 10px}
+textarea{width:100%;resize:vertical;font-family:"Pixelify Sans","DotGothic16",monospace;font-size:18px}
+button{cursor:pointer}
+button.on{background:var(--ac);color:var(--bg);border-color:var(--ac);font-weight:700}
+input[type=range]{flex:1;min-width:100px}
+input[type=color]{width:34px;height:28px;padding:0;border:1px solid var(--bd);background:none}
+.sw{display:flex;flex-wrap:wrap;gap:6px}
+.sw button{width:30px;height:30px;padding:0;border-radius:4px}
+.prev{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end;margin-top:12px}
+.prev figure{margin:0}.prev figcaption{font-size:12px;color:var(--mut)}
+.prev canvas{display:block;border:1px solid var(--bd)}
+.cr{display:flex;justify-content:space-between;gap:8px;font-size:13px;padding:2px 0}
+.ok{color:#1c8a4a}.warn{color:#b07a00}.bad{color:#d03a3a}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .ok{color:#6fe0a0}:root:not([data-theme="light"]) .warn{color:#ffd166}:root:not([data-theme="light"]) .bad{color:#ff8a8a}}
+[hidden]{display:none!important}
+.btn{color:var(--fg);background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:15px}
+.lay{display:flex;gap:4px;align-items:center;margin:3px 0}
+.lay button{padding:4px 8px}
+.lay .nm{flex:1;text-align:left;overflow:hidden;white-space:nowrap}
+.foot{max-width:1200px;margin:24px auto 8px;text-align:center}
+.kofi{display:inline-block;background:#29abe0;color:#04202c;padding:10px 18px;border-radius:8px;font-weight:700;text-decoration:none}
+.kofi:hover{filter:brightness(1.1)}
+small{color:var(--mut)}
+</style>
 </head>
-<body class="text-slate-800 p-4 md:p-8">
-    <div class="max-w-4xl mx-auto">
-        <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200 mb-6 flex flex-col md:flex-row justify-between md:items-center gap-3">
-            <div>
-                <h1 class="text-3xl font-extrabold text-slate-900">Indonesia <span class="text-blue-600">Blackout</span></h1>
-                <p class="text-slate-500 mt-1">Isu yang berdampak ke masyarakat luas. Tekan judul untuk membuka detail.</p>
-            </div>
-            <div class="text-sm text-slate-500">Diperbarui: <span id="upd" class="font-semibold text-slate-700">-</span></div>
-        </div>
+<body>
+<h1>Pixel Brand &amp; Thumbnail Studio</h1>
+<p class="sub">Teks pixel yang menyatu dengan karakter. Semua jalan di browser, tidak ada yang diunggah ke server.</p>
 
-        <div id="status" class="hidden mb-6 p-3 rounded border text-sm"></div>
+<div class="wrap">
+  <div class="stage">
+    <canvas id="cv"></canvas>
+    <div class="row">
+      <small>Klik objek untuk memilih, seret untuk memindah. Tombol panah = geser 1 sel, Delete = hapus layer.</small>
+      <label style="margin-left:auto"><input type="checkbox" id="zone"> tampilkan area timestamp YouTube (perkiraan)</label>
+    </div>
+    <div class="prev">
+      <figure><canvas id="p1"></canvas><figcaption>Preview feed (besar)</figcaption></figure>
+      <figure><canvas id="p2"></canvas><figcaption>Preview feed (kecil/sidebar)</figcaption></figure>
+    </div>
+  </div>
 
-        <div id="pola-box" class="hidden mb-6 bg-purple-50 border border-purple-200 p-5 rounded-lg">
-            <h2 class="font-bold text-purple-900 mb-1">🧠 Pola yang terlihat</h2>
-            <div id="pola" class="text-sm text-purple-800 leading-relaxed"></div>
-        </div>
-
-        <div id="news" class="space-y-3"></div>
-        <p class="text-xs text-slate-400 mt-6 text-center">Daftar isu diambil dari RSS media dan diperbarui server tiap 30 menit. Penerbit milik pemerintah dan BUMN disaring. Ringkasan oleh AI bisa keliru, jadi buka tautan sumbernya.</p>
+  <div class="panel">
+    <div class="card">
+      <h2>Kanvas</h2>
+      <div class="row"><select id="preset">
+        <option value="320,180">YouTube 16:9</option><option value="180,320">Shorts/TikTok 9:16</option>
+        <option value="240,240">Kotak 1:1</option><option value="192,240">Instagram 4:5</option>
+        <option value="360,120">Header 3:1</option><option value="c">Kustom</option></select></div>
+      <div class="row"><label>Lebar <input type="number" id="cw" min="64" max="640" style="width:72px"></label>
+        <label>Tinggi <input type="number" id="ch" min="64" max="640" style="width:72px"></label></div>
+      <small>Satuan: sel piksel (64 sampai 640). Ekspor dikali kelipatan bulat.</small>
     </div>
 
-    <script>
-        const $ = id => document.getElementById(id);
-        const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-        const nl2br = s => esc(s).replace(/\n/g, '<br>');
-        const safeUrl = u => { try { const x = new URL(u); return /^https?:$/.test(x.protocol) ? x.href : null; } catch { return null; } };
-        const fmt = iso => iso ? new Date(iso).toLocaleString('id-ID', { timeZone: 'Asia/Jakarta', dateStyle: 'medium', timeStyle: 'short' }) + ' WIB' : '-';
-        let lastUpdated = null;
+    <div class="card">
+      <h2>Layer</h2>
+      <div id="layers"></div>
+      <div class="row">
+        <button id="addT">+ Teks</button>
+        <label class="btn">+ Gambar<input type="file" id="file" accept="image/*" hidden></label>
+        <button id="sample">+ Karakter contoh</button>
+      </div>
+      <div class="row"><button id="dup">Duplikat</button><button id="del">Hapus</button></div>
+      <div id="imgCtl">
+        <div class="row"><label><input type="checkbox" id="smooth"> Halus (tanpa efek pixel)</label></div>
+        <div class="row" id="hzRow"><label>Ukuran</label><input type="range" id="hz" min="5" max="200" value="100"></div>
+        <div class="row" id="pxRow">
+          <label>Zoom</label><input type="range" id="zm" min="1" max="8" value="1">
+          <label>Resolusi</label><input type="range" id="res" min="16" max="240" value="90">
+        </div>
+      </div>
+    </div>
 
-        function status(msg) {
-            const el = $('status');
-            el.className = 'mb-6 p-3 rounded border text-sm bg-red-50 border-red-200 text-red-700';
-            el.textContent = msg;
-        }
+    <div class="card" id="txtCard">
+      <h2>Teks</h2>
+      <textarea id="txt" rows="2">biu
+ビウ</textarea>
+      <div class="row" id="styles">
+        <button data-s="chunky" class="on">Chunky</button>
+        <button data-s="slim">Slim</button>
+        <button data-s="retro">Retro shadow</button>
+      </div>
+      <div class="row"><label>Ukuran teks</label><input type="range" id="ts" min="1" max="6" value="3"></div>
+      <div class="row"><label>Font</label><select id="font"><option>Pixelify Sans</option><option>DotGothic16</option></select></div>
+      <div class="row"><label>Detail huruf</label><input type="range" id="fs" min="8" max="40" value="16"></div>
+      <div class="row"><label>Import font</label><input type="file" id="fontFile" accept=".ttf,.otf,.woff,.woff2"></div>
+      <small id="fontMsg">Font diproses di browser dan tidak diunggah. Pastikan lisensinya mengizinkan penggunaanmu.</small>
+    </div>
 
-        async function load() {
-            try {
-                const r = await fetch('/api/news', { cache: 'no-store' });
-                if (!r.ok) throw new Error('HTTP ' + r.status);
-                const d = await r.json();
-                $('upd').textContent = fmt(d.updated);
-                if (d.error) status(d.error); else $('status').className = 'hidden';
-                if (d.updated === lastUpdated) return;
-                lastUpdated = d.updated;
-                $('pola-box').classList.toggle('hidden', !d.pola);
-                $('pola').innerHTML = nl2br(d.pola || '');
-                render(d.issues || []);
-            } catch (e) {
-                status('Tidak bisa memuat data (' + e.message + '). Coba lagi sebentar.');
-            }
-        }
+    <div class="card">
+      <h2>Bantuan teks <small>(tidak masuk ke gambar)</small></h2>
+      <div id="rom"></div>
+      <div class="row"><button id="mean" hidden>Artinya apa?</button></div>
+      <small id="meanOut" style="white-space:pre-wrap"></small>
+    </div>
 
-        function render(issues) {
-            if (!issues.length) {
-                $('news').innerHTML = '<div class="p-4 bg-white rounded border text-center text-slate-500 italic">Belum ada isu. Server sedang menyiapkan data, coba lagi dalam 1-2 menit.</div>';
-                return;
-            }
-            $('news').innerHTML = issues.map(n => {
-                const links = (n.sources || []).map(s => safeUrl(s.url)
-                    ? `<a href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener noreferrer" class="text-xs bg-blue-100 text-blue-700 px-3 py-1.5 rounded hover:bg-blue-200 font-semibold">🔗 ${esc(s.title)}</a>` : '').join('');
-                const tag = (cls, t) => `<span class="${cls} px-2 py-0.5 rounded text-xs">${esc(t)}</span>`;
-                return `
-                <details class="bg-white border border-slate-200 rounded-lg shadow-sm">
-                    <summary class="p-4 flex items-start gap-3">
-                        <span class="chev text-slate-400 mt-1">▶</span>
-                        <div class="flex-1">
-                            <h3 class="font-bold text-lg text-slate-800 leading-snug">${esc(n.title)}</h3>
-                            <div class="flex flex-wrap gap-2 mt-2">
-                                ${n.media ? tag('bg-slate-100 text-slate-600', n.media + ' media') : ''}
-                                ${n.impact && n.impact.length ? tag('bg-red-100 text-red-700', 'Dampak: ' + n.impact.join(', ')) : ''}
-                                ${n.topic ? tag('bg-amber-100 text-amber-800', 'Topik pantauan: ' + n.topic) : ''}
-                                ${n.trend ? tag('bg-green-100 text-green-800', 'Naik di Google Trends') : ''}
-                            </div>
-                        </div>
-                        <span class="text-xs text-slate-400 shrink-0">${esc(fmt(n.time))}</span>
-                    </summary>
-                    <div class="px-4 pb-4 pl-10 text-sm text-slate-700 leading-relaxed border-t border-slate-100 pt-3">
-                        <p class="mb-3">${esc(n.content)}</p>
-                        ${n.detail ? `<div class="mb-3 p-3 bg-slate-50 rounded border border-slate-100"><div class="font-semibold mb-1">Judul dari tiap media</div>${nl2br(n.detail)}</div>` : ''}
-                        ${n.viewpoint ? `<div class="mb-3 p-3 bg-blue-50 rounded border border-blue-100 text-blue-800"><div class="font-semibold mb-1">Sudut pandang</div>${nl2br(n.viewpoint)}</div>` : ''}
-                        <div class="flex flex-wrap gap-2">${links || '<span class="text-xs text-slate-400">Sumber tidak tersedia.</span>'}</div>
-                    </div>
-                </details>`;
-            }).join('');
-        }
+    <div class="card">
+      <h2>3. Warna</h2>
+      <div class="row">
+        <label>Isi <input type="color" id="cFill"></label>
+        <label>Outline/bayangan <input type="color" id="cLine"></label>
+        <label>Latar <input type="color" id="cBg"></label>
+      </div>
+      <div class="row">
+        <label>Klik swatch untuk mengisi:</label>
+        <label><input type="radio" name="tgt" value="fill" checked> isi</label>
+        <label><input type="radio" name="tgt" value="line"> outline</label>
+        <label><input type="radio" name="tgt" value="bg"> latar</label>
+      </div>
+      <label>Palet dari karakter</label>
+      <div class="sw" id="pal"><small>Upload karakter dulu.</small></div>
+      <label>Palet brand</label>
+      <div class="sw" id="brand"></div>
+    </div>
 
-        load();
-        setInterval(load, 5 * 60 * 1000);
-    </script>
+    <div class="card">
+      <h2>4. Cek kontras</h2>
+      <div id="cr"></div>
+    </div>
+
+    <div class="card">
+      <h2>5. Ekspor</h2>
+      <div class="row">
+        <select id="sz"></select>
+        <button id="dl" class="on">Unduh PNG</button>
+      </div>
+      <small id="msg"></small>
+    </div>
+  </div>
+</div>
+
+<footer class="foot">
+  <a class="kofi" id="kofi" href="https://ko-fi.com/rookie25109" target="_blank" rel="noopener">☕ Support me di Ko-fi</a>
+  <p><small>Semua diproses di browser kamu. Tanpa login, tanpa pelacakan. Gambar dan teks tidak dikirim ke server mana pun (kecuali tombol “Artinya apa?” yang hanya ada di claude.ai).</small></p>
+</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+
+/* ---------- Grid: semua gambar dibuat di kanvas kecil 320x180 (1 sel = 1 piksel),
+   baru diperbesar dengan kelipatan bulat. Itu yang menjaga semuanya tajam. ---------- */
+let W = 320, H = 180, S = 4;
+const cv = $('cv'), g2 = cv.getContext('2d');
+cv.width = W * S; cv.height = H * S;
+const grid = document.createElement('canvas'); grid.width = W; grid.height = H;
+const gg = grid.getContext('2d'); gg.imageSmoothingEnabled = false;
+
+// Tiap teks = satu elemen dengan ukuran, gaya, warna, dan posisinya sendiri
+const items = [
+  { type: 'text', vis: true, text: 'biu', style: 'chunky', ts: 4, fill: '#f784c5', line: '#000000', tx: 14, ty: 26, font: 'Pixelify Sans', fs: 16 },
+  { type: 'text', vis: true, text: 'ビウ', style: 'slim', ts: 2, fill: '#eeeeee', line: '#000072', tx: 20, ty: 100, font: 'DotGothic16', fs: 16 }];
+let cur = 0;
+const st = { bg: '#000072', tgt: 'fill', zone: false };
+// st.text, st.style, st.ts, dst. selalu menunjuk ke teks yang sedang dipilih
+for (const k of ['text', 'style', 'ts', 'fill', 'line', 'tx', 'ty', 'font', 'fs', 'type', 'vis', 'op', 'res', 'name', 'smooth', 'hc', 'wc'])
+  Object.defineProperty(st, k, { get: () => items[cur][k], set: v => { items[cur][k] = v; } });
+const PRESET = { chunky: ['#f784c5', '#000000'], slim: ['#f784c5', '#000072'], retro: ['#eeeeee', '#f784c5'] };
+const BRAND = ['#000072', '#f784c5', '#eeeeee', '#000000'];
+
+const hex = (r, gr, b) => '#' + [r, gr, b].map(v => v.toString(16).padStart(2, '0')).join('');
+
+/* ---------- Teks -> bitmap ----------
+   Font pixel digambar kecil (16px) ke kanvas tersembunyi, lalu di-threshold:
+   tiap piksel jadi "ada" atau "kosong". Hasilnya bitmap bersih tanpa anti-aliasing,
+   dan gaya (outline, shading, shadow) dibuat dengan operasi di bitmap itu. */
+const cache = new Map();
+function textMask(it) {
+  const bold = it.style !== 'slim', k = it.text + bold + it.font + it.fs;
+  if (cache.has(k)) return cache.get(k);
+  const lines = it.text.split('\n'), fs = it.fs, lh = Math.round(fs * 1.15), pad = 5;
+  const c = document.createElement('canvas'), m = c.getContext('2d', { willReadFrequently: true });
+  const font = `${bold ? 700 : 400} ${fs}px "${it.font}","Pixelify Sans","DotGothic16",monospace`;
+  m.font = font;
+  const w = Math.ceil(Math.max(1, ...lines.map(l => m.measureText(l).width))) + pad * 2;
+  const h = lines.length * lh + pad * 2;
+  c.width = w; c.height = h; m.font = font; m.textBaseline = 'top'; m.fillStyle = '#000';
+  lines.forEach((l, i) => m.fillText(l, pad, pad + i * lh));
+  const d = m.getImageData(0, 0, w, h).data, a = new Uint8Array(w * h);
+  for (let i = 0; i < a.length; i++) a[i] = d[i * 4 + 3] > 110 ? 1 : 0; // threshold alpha
+  let x0 = w, y0 = h, x1 = 0, y1 = 0;       // kotak batas tinta (untuk kotak seleksi)
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (a[y * w + x]) { x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y); }
+  if (x1 < x0) { x0 = y0 = x1 = y1 = pad; }
+  const res = { a, w, h, x0, y0, x1, y1 }; cache.set(k, res);
+  return res;
+}
+const at = (m, x, y) => (x < 0 || y < 0 || x >= m.w || y >= m.h) ? 0 : m.a[y * m.w + x];
+// dilasi: tebalkan bentuk r sel ke segala arah (dipakai untuk outline)
+function dil(m, r) {
+  const o = new Uint8Array(m.w * m.h);
+  for (let y = 0; y < m.h; y++) for (let x = 0; x < m.w; x++) if (m.a[y * m.w + x])
+    for (let j = -r; j <= r; j++) for (let i = -r; i <= r; i++) {
+      const X = x + i, Y = y + j;
+      if (X >= 0 && Y >= 0 && X < m.w && Y < m.h) o[Y * m.w + X] = 1;
+    }
+  return o;
+}
+// geser bitmap (dipakai untuk bayangan retro)
+function shift(m, dx, dy) {
+  const o = new Uint8Array(m.w * m.h);
+  for (let y = 0; y < m.h; y++) for (let x = 0; x < m.w; x++) if (at(m, x - dx, y - dy)) o[y * m.w + x] = 1;
+  return o;
+}
+const shade = (c, f) => { const n = parseInt(c.slice(1), 16);
+  return hex(...[16, 8, 0].map(s => Math.round(((n >> s) & 255) * (1 - f)))); };
+
+function drawOne() {
+  const m = textMask(st), { w, h } = m, ts = st.ts;
+  const put = (a, col) => { gg.fillStyle = col;
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (a[y * w + x]) gg.fillRect(st.tx + x * ts, st.ty + y * ts, ts, ts); };
+  if (st.style === 'chunky') {
+    put(dil(m, 2), st.line);           // outline tebal 2 sel
+    put(m.a, st.fill);
+    const sh = new Uint8Array(w * h);  // shading: sel isi yang sisi bawahnya kosong
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (m.a[y * w + x] && !at(m, x, y + 1)) sh[y * w + x] = 1;
+    put(sh, shade(st.fill, .28));
+  } else if (st.style === 'retro') {
+    put(shift(m, 2, 2), st.line);      // bayangan geser 2 sel ke kanan-bawah
+    put(m.a, st.fill);
+  } else put(m.a, st.fill);
+}
+
+// gambar semua teks berurutan (yang terakhir di atas)
+// Gambar semua layer berurutan (indeks 0 = paling bawah) ke ctx dengan skala k.
+// Layer pixel digambar di grid lalu diperbesar kelipatan bulat; layer halus digambar langsung (smoothing aktif).
+function paint(ctx, k) {
+  ctx.imageSmoothingEnabled = false;
+  ctx.fillStyle = st.bg; ctx.fillRect(0, 0, W * k, H * k);
+  const s = cur;
+  items.forEach((l, i) => {
+    if (!l.vis) return;
+    if (l.type === 'image' && l.smooth) {
+      ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high'; ctx.globalAlpha = l.op;
+      const b = box(l); ctx.drawImage(l.work, b[0] * k, b[1] * k, b[2] * k, b[3] * k);
+      ctx.globalAlpha = 1; ctx.imageSmoothingEnabled = false; return;
+    }
+    cur = i; gg.clearRect(0, 0, W, H);
+    if (l.type === 'text') drawOne();
+    else { gg.globalAlpha = l.op; gg.drawImage(l.sprite, l.tx, l.ty, l.sprite.width * l.ts, l.sprite.height * l.ts); gg.globalAlpha = 1; }
+    ctx.drawImage(grid, 0, 0, W * k, H * k);
+  });
+  cur = s;
+}
+
+/* ---------- Render utama ---------- */
+function render() {
+  paint(g2, S);
+  for (const id of ['p1', 'p2']) {                    // preview feed: sengaja di-smooth, seperti tampilan asli
+    const c = $(id), x = c.getContext('2d');
+    x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
+    x.drawImage(cv, 0, 0, c.width, c.height);
+  }
+  if (st.zone) { g2.fillStyle = 'rgba(255,40,40,.4)'; g2.fillRect((W - 40) * S, (H - 18) * S, 36 * S, 14 * S); }
+  const b = box(items[cur]);                         // kotak seleksi (hanya tampilan, tidak ikut ekspor)
+  g2.setLineDash([8, 6]);
+  g2.lineWidth = 3; g2.strokeStyle = '#000'; g2.strokeRect(b[0] * S, b[1] * S, b[2] * S, b[3] * S);
+  g2.lineWidth = 1.5; g2.strokeStyle = '#00e5ff'; g2.strokeRect(b[0] * S, b[1] * S, b[2] * S, b[3] * S);
+  g2.setLineDash([]);
+  contrast();
+}
+
+/* ---------- Kontras (rumus WCAG) ---------- */
+const lin = v => { v /= 255; return v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; };
+const lum = h => { const n = parseInt(h.slice(1), 16); return .2126 * lin(n >> 16 & 255) + .7152 * lin(n >> 8 & 255) + .0722 * lin(n & 255); };
+const ratio = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); };
+const verdict = r => r >= 7 ? ['Sangat jelas', 'ok'] : r >= 4.5 ? ['Aman', 'ok'] : r >= 3 ? ['Cukup (teks besar saja)', 'warn'] : ['Berisiko, susah dibaca', 'bad'];
+function contrast() {
+  if (st.type !== 'text') { $('cr').innerHTML = '<small>Pilih layer teks untuk cek kontras.</small>'; return; }
+  const rows = [['Isi vs latar', st.fill, st.bg]];
+  if (st.style === 'chunky') rows.push(['Isi vs outline', st.fill, st.line]);
+  if (st.style === 'retro') rows.push(['Isi vs bayangan', st.fill, st.line]);
+  $('cr').innerHTML = rows.map(([n, a, b]) => { const r = ratio(a, b), [t, c] = verdict(r);
+    return `<div class="cr"><span>${n}</span><span class="${c}">${r.toFixed(1)}:1 · ${t}</span></div>`; }).join('');
+}
+
+/* ---------- Upload karakter ---------- */
+function loadImage(file) {
+  const img = new Image();
+  img.onload = () => {
+    const c = document.createElement('canvas'); c.width = img.width; c.height = img.height;
+    c.getContext('2d', { willReadFrequently: true }).drawImage(img, 0, 0);
+    const k = detectCell(c);
+    addImage({ type: 'image', vis: true, op: 1, name: file.name.replace(/\.[^.]+$/, ''), src: c, k, res: k > 1 ? Math.min(240, Math.max(16, Math.round(c.height / k))) : 90, smooth: k === 1 });   // gambar non-pixel default-nya halus
+  };
+  img.src = URL.createObjectURL(file);
+}
+// Ukuran sel piksel: kelipatan terbesar t di mana tiap blok t x t berwarna seragam (1 = bukan pixel art)
+function detectCell(c) {
+  const w = c.width, h = c.height, d = c.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, w, h).data;
+  const bg = p => d[p + 3] < 10 || Math.abs(d[p] - d[0]) + Math.abs(d[p + 1] - d[1]) + Math.abs(d[p + 2] - d[2]) < 12;
+  const step = Math.max(3, Math.floor(Math.max(w, h) / 300));
+  for (let t = Math.min(80, w >> 3); t > 1; t--) {
+    let bad = 0, n = 0;
+    for (let Y = 0; Y < h && bad < 40; Y += step) for (let X = 0; X < w; X += step) {
+      const p = (Y * w + X) * 4, q = ((Y - Y % t) * w + (X - X % t)) * 4;
+      if (bg(p) && bg(q)) continue;
+      n++; if (d[p] !== d[q] || d[p + 1] !== d[q + 1] || d[p + 2] !== d[q + 2]) bad++;
+    }
+    if (n > 30 && bad / n < .02) return t;
+  }
+  return 1;
+}
+// Bangun ulang sprite dari gambar asli pada resolusi L.res (tinggi dalam sel). Inilah yang membuat gambar besar bisa diperkecil.
+function rebuild(L) {
+  const c = L.src, f = c.height / L.res, sw = Math.max(1, Math.round(c.width / f)), sh = Math.max(1, Math.round(c.height / f));
+  const t = document.createElement('canvas'); t.width = sw; t.height = sh;
+  const tx = t.getContext('2d', { willReadFrequently: true });
+  if (L.k > 1) {   // pixel art: ambil warna tengah tiap blok, tanpa mencampur warna
+    const d = c.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, c.width, c.height).data, id = tx.createImageData(sw, sh);
+    for (let j = 0; j < sh; j++) for (let i = 0; i < sw; i++) {
+      const p = (Math.min(c.height - 1, Math.floor((j + .5) * f)) * c.width + Math.min(c.width - 1, Math.floor((i + .5) * f))) * 4;
+      id.data.set(d.subarray(p, p + 4), (j * sw + i) * 4);
+    }
+    tx.putImageData(id, 0, 0);
+  } else { tx.imageSmoothingQuality = 'high'; tx.drawImage(c, 0, 0, sw, sh); }   // foto/ilustrasi halus: perkecil dengan smoothing
+  const e = tx.getImageData(0, 0, sw, sh), d2 = e.data;
+  const same = p => Math.abs(d2[p] - d2[0]) + Math.abs(d2[p + 1] - d2[1]) + Math.abs(d2[p + 2] - d2[2]) < 12;
+  const flat = d2[3] > 200 && [[sw - 1, 0], [0, sh - 1], [sw - 1, sh - 1]].every(([X, Y]) => same((Y * sw + X) * 4));
+  L.bgc = flat ? hex(d2[0], d2[1], d2[2]) : null;   // latar polos: dibuang, lalu karakter di-crop
+  if (flat) {   // flood fill dari tepi: hanya latar yang tersambung ke tepi yang dibuang
+    const seen = new Uint8Array(sw * sh), stk = [];
+    const push = (i, j) => { if (i < 0 || j < 0 || i >= sw || j >= sh) return; const q = j * sw + i; if (seen[q] || !same(q * 4)) return; seen[q] = 1; stk.push(q); };
+    for (let i = 0; i < sw; i++) { push(i, 0); push(i, sh - 1); }
+    for (let j = 0; j < sh; j++) { push(0, j); push(sw - 1, j); }
+    while (stk.length) { const q = stk.pop(), i = q % sw, j = (q - i) / sw; d2[q * 4 + 3] = 0; push(i + 1, j); push(i - 1, j); push(i, j + 1); push(i, j - 1); }
+  }
+  let x0 = sw, y0 = sh, x1 = -1, y1 = -1;
+  for (let j = 0; j < sh; j++) for (let i = 0; i < sw; i++) {
+    const p = (j * sw + i) * 4;
+    if (d2[p + 3] > 10) { x0 = Math.min(x0, i); x1 = Math.max(x1, i); y0 = Math.min(y0, j); y1 = Math.max(y1, j); }
+  }
+  tx.putImageData(e, 0, 0);
+  if (x1 < 0) { L.sprite = t; return; }
+  const s = document.createElement('canvas'); s.width = x1 - x0 + 1; s.height = y1 - y0 + 1;
+  s.getContext('2d').drawImage(t, x0, y0, s.width, s.height, 0, 0, s.width, s.height);
+  L.sprite = s;
+}
+// Mode halus: gambar digambar langsung di resolusi ekspor (tidak lewat grid pixel). Salinan kerja maks 2400px supaya cepat.
+function fitSmooth(L) {
+  if (!L.work) {
+    const c = L.src, f = Math.min(1, 2400 / Math.max(c.width, c.height));
+    L.work = document.createElement('canvas'); L.work.width = Math.round(c.width * f); L.work.height = Math.round(c.height * f);
+    const x = L.work.getContext('2d'); x.imageSmoothingQuality = 'high'; x.drawImage(c, 0, 0, L.work.width, L.work.height);
+  }
+  L.hc = Math.min(H, W * L.src.height / L.src.width); L.wc = L.hc * L.src.width / L.src.height;
+  L.tx = (W - L.wc) / 2; L.ty = (H - L.hc) / 2;
+}
+function addImage(L) {
+  rebuild(L);
+  const s = L.sprite; L.ts = Math.max(1, Math.min(8, Math.floor(150 / s.height)));
+  L.tx = Math.max(0, Math.round(W * .68 - s.width * L.ts / 2)); L.ty = Math.max(0, H - s.height * L.ts - 8);
+  if (L.smooth) fitSmooth(L);
+  items.push(L); cur = items.length - 1;
+  if (L.bgc && !L.smooth) st.bg = L.bgc;
+  palette(s.getContext('2d').getImageData(0, 0, s.width, s.height).data);
+  sync(); render();
+}
+
+/* ---------- Palet dari karakter: warna paling sering + satu warna paling "hidup" ---------- */
+function palette(d) {
+  const cnt = {};
+  for (let i = 0; i < d.length; i += 4) if (d[i + 3]) { const h = hex(d[i], d[i + 1], d[i + 2]); cnt[h] = (cnt[h] || 0) + 1; }
+  const rgb = h => { const n = parseInt(h.slice(1), 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; };
+  const far = (a, b) => Math.hypot(...rgb(a).map((v, i) => v - rgb(b)[i])) > 40;
+  const all = Object.entries(cnt).sort((a, b) => b[1] - a[1]).map(e => e[0]);
+  const pick = [];
+  for (const h of all) { if (pick.every(p => far(p, h))) pick.push(h); if (pick.length >= 5) break; }
+  const sat = h => Math.max(...rgb(h)) - Math.min(...rgb(h));
+  const vivid = all.filter(h => pick.every(p => far(p, h))).sort((a, b) => sat(b) - sat(a))[0];
+  if (vivid) pick.push(vivid);
+  swatches($('pal'), pick);
+}
+function swatches(el, list) {
+  el.innerHTML = '';
+  list.forEach(h => { const b = document.createElement('button'); b.style.background = h; b.title = h;
+    b.onclick = () => { st[st.tgt] = h; sync(); render(); }; el.appendChild(b); });
+}
+
+/* ---------- Bantuan teks: romaji dari kana (offline) + arti lewat Claude. Hanya tampil di panel, tidak digambar ke kanvas ---------- */
+const K = 'ア a イ i ウ u エ e オ o カ ka キ ki ク ku ケ ke コ ko サ sa シ shi ス su セ se ソ so タ ta チ chi ツ tsu テ te ト to ナ na ニ ni ヌ nu ネ ne ノ no ハ ha ヒ hi フ fu ヘ he ホ ho マ ma ミ mi ム mu メ me モ mo ヤ ya ユ yu ヨ yo ラ ra リ ri ル ru レ re ロ ro ワ wa ヲ o ン n ガ ga ギ gi グ gu ゲ ge ゴ go ザ za ジ ji ズ zu ゼ ze ゾ zo ダ da ヂ ji ヅ zu デ de ド do バ ba ビ bi ブ bu ベ be ボ bo パ pa ピ pi プ pu ペ pe ポ po ヴ vu'.split(' ');
+const KM = {}; for (let i = 0; i < K.length; i += 2) KM[K[i]] = K[i + 1];
+function toRomaji(s) {
+  s = s.replace(/[ぁ-ゖ]/g, c => String.fromCharCode(c.charCodeAt(0) + 96)); // hiragana -> katakana
+  let out = '', dbl = false;
+  for (const c of s) {
+    if (c === 'ッ') { dbl = true; continue; }                                  // konsonan ganda
+    if ('ャュョ'.includes(c) && out.endsWith('i')) {                           // gabungan: キャ = kya, シャ = sha
+      const v = { 'ャ': 'a', 'ュ': 'u', 'ョ': 'o' }[c], b = out.slice(0, -1);
+      out = /(sh|ch|j)$/.test(b) ? b + v : b + 'y' + v; continue;
+    }
+    if (c === 'ー') { out += out.slice(-1); continue; }                        // vokal panjang
+    let r = KM[c]; if (r === undefined) { out += c; continue; }
+    if (dbl) { r = r[0] + r; dbl = false; }
+    out += r;
+  }
+  return out;
+}
+function help() {
+  const jp = items.flatMap(i => i.type === 'text' ? i.text.split('\n') : []).filter(l => /[\u3040-\u30ff]/.test(l));
+  $('rom').innerHTML = jp.length
+    ? jp.map(l => `<div class="cr"><span>${l.replace(/</g, '&lt;')}</span><span>${toRomaji(l).replace(/</g, '&lt;')}</span></div>`).join('')
+    : '<small>Tidak ada teks kana. Tulis baris katakana/hiragana untuk melihat romaji.</small>';
+}
+let smp = null;
+try { window.claude && claude.use('sample').then(x => { smp = x; if (x) $('mean').hidden = false; }).catch(() => {}); } catch (e) {}
+$('mean').onclick = async () => {
+  const jp = items.flatMap(i => i.type === 'text' ? i.text.split('\n') : []).filter(l => /[\u3040-\u30ff\u4e00-\u9fff]/.test(l));
+  if (!jp.length || !smp) { $('meanOut').textContent = 'Belum ada teks Jepang.'; return; }
+  $('meanOut').textContent = 'Menerjemahkan...';
+  try {
+    const r = await smp('Untuk setiap teks Jepang berikut, beri romaji, arti bahasa Indonesia, dan arti bahasa Inggris. Satu blok singkat per teks. Jika hanya transliterasi bunyi tanpa arti, katakan begitu.\n' + jp.join('\n'));
+    $('meanOut').textContent = r.text;
+  } catch (e) { $('meanOut').textContent = 'Tidak bisa menerjemahkan di tampilan ini.'; }
+};
+
+/* ---------- UI ---------- */
+function sync() {
+  $('txtCard').hidden = st.type !== 'text'; $('imgCtl').hidden = st.type !== 'image';
+  if (st.type === 'text') { $('cFill').value = st.fill; $('cLine').value = st.line; }
+  $('cBg').value = st.bg;
+  if (st.type === 'text') { $('txt').value = st.text; $('ts').value = st.ts; $('font').value = st.font; $('fs').value = st.fs; }
+  else { $('zm').value = st.ts; $('res').value = st.res; $('smooth').checked = !!st.smooth; $('hzRow').hidden = !st.smooth; $('pxRow').hidden = !!st.smooth; if (st.smooth) $('hz').value = Math.round(st.hc / H * 100); }
+  document.querySelectorAll('#styles button').forEach(b => b.classList.toggle('on', b.dataset.s === st.style));
+  tabs();
+}
+// panel layer: tampil dari atas ke bawah; kotak mata = tampil/sembunyi, panah = ubah urutan
+function tabs() {
+  const el = $('layers'); el.innerHTML = '';
+  const mk = (p, label, fn, cls) => { const b = document.createElement('button'); b.textContent = label; if (cls) b.className = cls; b.onclick = fn; p.appendChild(b); };
+  for (let i = items.length - 1; i >= 0; i--) {
+    const l = items[i], row = document.createElement('div'); row.className = 'lay';
+    const nm = l.type === 'text' ? 'T ' + (l.text.split('\n')[0] || '(kosong)') : '\u25a3 ' + (l.name || 'gambar');
+    mk(row, l.vis ? '\ud83d\udc41' : '\u2013', () => { l.vis = !l.vis; render(); tabs(); });
+    mk(row, nm.slice(0, 16), () => { cur = i; sync(); render(); }, 'nm' + (i === cur ? ' on' : ''));
+    mk(row, '\u25b2', () => move(i, 1)); mk(row, '\u25bc', () => move(i, -1));
+    el.appendChild(row);
+  }
+}
+function move(i, d) {
+  const j = i + d; if (j < 0 || j >= items.length) return;
+  [items[i], items[j]] = [items[j], items[i]];
+  if (cur === i) cur = j; else if (cur === j) cur = i;
+  sync(); render();
+}
+function seg(sel, attr, fn) {
+  document.querySelectorAll(sel).forEach(b => b.onclick = () => {
+    document.querySelectorAll(sel).forEach(x => x.classList.toggle('on', x === b)); fn(b.dataset[attr]); });
+}
+seg('#styles button', 's', s => { st.style = s; [st.fill, st.line] = PRESET[s]; sync(); render(); });
+$('txt').oninput = e => { st.text = e.target.value; render(); help(); tabs(); };
+$('ts').oninput = e => { st.ts = +e.target.value; render(); };
+$('font').onchange = e => { st.font = e.target.value; render(); };
+$('fs').oninput = e => { st.fs = +e.target.value; render(); };
+// Import font: dibaca lokal lewat FontFace API, tidak diunggah ke mana pun
+$('fontFile').onchange = async e => {
+  const f = e.target.files[0]; if (!f) return;
+  const name = 'Imp ' + f.name.replace(/\.[^.]+$/, '').replace(/[^\w ]/g, ' ').slice(0, 24);
+  try {
+    const ff = new FontFace(name, await f.arrayBuffer()); await ff.load(); document.fonts.add(ff);
+    const o = document.createElement('option'); o.value = o.textContent = name; $('font').appendChild(o);
+    st.font = name; sync(); render(); $('fontMsg').textContent = 'Font “' + name.slice(4) + '” dipakai untuk teks yang sedang dipilih.';
+  } catch (err) { $('fontMsg').textContent = 'Font tidak bisa dibaca. Coba format .ttf, .otf, atau .woff2.'; }
+};
+$('sample').onclick = () => useSample();
+$('cFill').oninput = e => { st.fill = e.target.value; render(); };
+$('cLine').oninput = e => { st.line = e.target.value; render(); };
+$('cBg').oninput = e => { st.bg = e.target.value; render(); };
+$('zone').onchange = e => { st.zone = e.target.checked; render(); };
+document.querySelectorAll('[name=tgt]').forEach(r => r.onchange = () => st.tgt = r.value);
+$('file').onchange = e => { if (e.target.files[0]) loadImage(e.target.files[0]); e.target.value = ''; };
+$('addT').onclick = () => { items.push({ type: 'text', vis: true, text: 'teks', style: 'slim', ts: 2, fill: '#eeeeee', line: '#000072', tx: 14, ty: 14 + items.length * 6, font: 'Pixelify Sans', fs: 16 }); cur = items.length - 1; sync(); render(); help(); };
+$('dup').onclick = () => { const c = { ...items[cur], tx: items[cur].tx + 4, ty: items[cur].ty + 4 }; items.splice(cur + 1, 0, c); cur++; sync(); render(); help(); };
+$('del').onclick = () => { if (items.length < 2) return; items.splice(cur, 1); cur = Math.max(0, cur - 1); sync(); render(); help(); };
+$('smooth').onchange = e => { const l = items[cur]; l.smooth = e.target.checked; if (l.smooth) fitSmooth(l); sync(); render(); };
+$('hz').oninput = e => { const l = items[cur]; l.hc = H * e.target.value / 100; l.wc = l.hc * l.src.width / l.src.height; render(); };
+$('zm').oninput = e => { st.ts = +e.target.value; render(); };
+$('res').oninput = e => { st.res = +e.target.value; rebuild(items[cur]); render(); };
+$('preset').onchange = e => { if (e.target.value !== 'c') { const [w, h] = e.target.value.split(','); resize(+w, +h); render(); } };
+['cw', 'ch'].forEach(id => $(id).onchange = () => { $('preset').value = 'c'; resize(+$('cw').value, +$('ch').value); render(); });
+// Tombol panah menggeser layer terpilih 1 sel, Delete menghapusnya
+document.onkeydown = e => {
+  if (/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+  const l = items[cur], d = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key];
+  if (d) { l.tx += d[0]; l.ty += d[1]; render(); e.preventDefault(); } else if (e.key === 'Delete') $('del').click();
+};
+
+// Alat pilih: klik memilih layer teratas di bawah kursor, seret untuk memindah (dibulatkan per sel)
+let drag = null;
+const pos = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * W / r.width, (e.clientY - r.top) * H / r.height]; };
+function box(l) {
+  if (l.type === 'image') return l.smooth ? [l.tx, l.ty, l.wc, l.hc] : [l.tx, l.ty, l.sprite.width * l.ts, l.sprite.height * l.ts];
+  const m = textMask(l);
+  return [l.tx + (m.x0 - 2) * l.ts, l.ty + (m.y0 - 2) * l.ts, (m.x1 - m.x0 + 5) * l.ts, (m.y1 - m.y0 + 5) * l.ts];
+}
+cv.onpointerdown = e => {
+  cv.setPointerCapture(e.pointerId);
+  const p = pos(e); drag = null;
+  for (let i = items.length - 1; i >= 0; i--) {
+    if (!items[i].vis) continue;
+    const [bx, by, bw, bh] = box(items[i]);
+    if (p[0] >= bx && p[0] <= bx + bw && p[1] >= by && p[1] <= by + bh) { cur = i; sync(); render(); drag = { p, o: [st.tx, st.ty] }; break; }
+  }
+};
+cv.onpointermove = e => {
+  if (!drag) return; const p = pos(e);
+  st.tx = Math.round(drag.o[0] + p[0] - drag.p[0]); st.ty = Math.round(drag.o[1] + p[1] - drag.p[1]);
+  render();
+};
+cv.onpointerup = cv.onpointercancel = () => drag = null;
+
+// Ekspor: di claude.ai pakai kapabilitas "downloads"; di browser biasa (file HTML disalin) pakai link unduh biasa
+let dlCap = null;
+try { window.claude && claude.use('downloads').then(x => dlCap = x).catch(() => {}); } catch (e) {}
+$('dl').onclick = async () => {
+  const k = +$('sz').value, c = document.createElement('canvas');
+  c.width = W * k; c.height = H * k;
+  const x = c.getContext('2d'); paint(x, k);
+  const blob = await new Promise(r => c.toBlob(r, 'image/png'));
+  try {
+    if (dlCap) { await dlCap.save({ filename: 'thumbnail-pixel.png', data: blob }); $('msg').textContent = 'Siap diunduh.'; }
+    else { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'thumbnail-pixel.png'; a.click(); }
+  } catch (e) { if (!e || e.code !== 'declined') $('msg').textContent = 'Ekspor gagal di tampilan ini. Coba buka file HTML-nya di browser biasa.'; }
+};
+
+// Karakter contoh bawaan (1 huruf = 1 sel), supaya tool tidak kosong saat pertama dibuka
+const SPR = [
+  '....kkkkkk....', '...knnnnnnk...', '..knnnnnnnnk..', '..knnnnnnnnk..', '.kbbbbbbbbbbk.',
+  '..kssssssssk..', '..kkwksskwkk..', '..kssssssssk..', '...kssssssk...', '..khhhhhhhhk..',
+  '.khhhhhhhhhhk.', '.khhhhddhhhhk.', '.khhhhhhhhhhk.', '.kshhhhhhhhsk.', '..kddddddddk..',
+  '..kppppppppk..', '..kpppkkpppk..', '..kpppkkpppk..', '..kfffkkfffk..', '..kkkk..kkkk..'];
+const SPC = { k: '#14143a', n: '#3b4cca', b: '#2a3699', s: '#f3c9a5', w: '#ffffff', h: '#2aa198', d: '#1d7a72', p: '#2b2f4a', f: '#e8e8f0' };
+function useSample() {
+  const ch = SPR.length, cw = SPR[0].length, sc = document.createElement('canvas');
+  sc.width = cw; sc.height = ch;
+  const x = sc.getContext('2d', { willReadFrequently: true });
+  SPR.forEach((row, j) => [...row].forEach((c, i) => { if (SPC[c]) { x.fillStyle = SPC[c]; x.fillRect(i, j, 1, 1); } }));
+  addImage({ type: 'image', vis: true, op: 1, name: 'karakter contoh', src: sc, k: 2, res: ch });
+}
+
+// Ganti ukuran kanvas (dalam sel). Tampilan dikali S (kelipatan bulat), ekspor dikali 4, 6, atau 8.
+function resize(w, h) {
+  W = Math.max(64, Math.min(640, w | 0 || 320)); H = Math.max(64, Math.min(640, h | 0 || 180));
+  S = Math.max(2, Math.min(4, Math.floor(1280 / W)));
+  cv.width = W * S; cv.height = H * S; grid.width = W; grid.height = H; gg.imageSmoothingEnabled = false;
+  for (const [id, pw] of [['p1', 246], ['p2', 168]]) { const c = $(id); c.width = pw; c.height = Math.round(pw * H / W); }
+  $('cw').value = W; $('ch').value = H;
+  const keep = $('sz').value || '4';
+  $('sz').innerHTML = [4, 6, 8].map(k => `<option value="${k}">${W * k} × ${H * k}</option>`).join('');
+  $('sz').value = keep;
+}
+// Init
+resize(W, H);
+swatches($('brand'), BRAND); help(); useSample();
+items.unshift(items.pop()); cur = 1; sync(); render();   // karakter contoh di layer paling bawah
+// Render ulang setelah font pixel selesai dimuat (cache dibuang supaya bitmap dihitung ulang)
+Promise.all([
+  document.fonts.load('700 16px "Pixelify Sans"'), document.fonts.load('400 16px "Pixelify Sans"'),
+  document.fonts.load('16px "DotGothic16"', 'ビウ')
+]).then(() => { cache.clear(); render(); help(); }).catch(() => {});
+</script>
 </body>
 </html>

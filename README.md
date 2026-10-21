@@ -8,7 +8,9 @@ Pembuat thumbnail gratis yang jalan sepenuhnya di browser. Tanpa login, tanpa se
 
 - Teks pixel dengan tiga gaya: **chunky** (outline + shading), **slim**, dan **retro shadow**
 - Banyak teks, masing-masing dengan ukuran, gaya, warna, dan posisi sendiri
-- Kanvas 16:9, upload gambar karakter, dan karakter contoh bawaan
+- Kanvas fleksibel: 16:9, 9:16, 1:1, 4:5, 3:1, atau ukuran kustom
+- Layer teks dan gambar: pilih, geser, urutkan, sembunyikan, duplikat, plus alat pilih di kanvas
+- Upload gambar (gambar besar diperkecil lewat slider Resolusi) dan karakter contoh bawaan
 - Palet warna otomatis dari karakter
 - Pengecek kontras (rumus WCAG) dan preview ukuran feed
 - Import font sendiri (`.ttf`, `.otf`, `.woff`, `.woff2`)
@@ -28,7 +30,7 @@ Buka `index.html` di browser. Tidak perlu instal apa pun.
 
 ## Kustomisasi
 
-- **Link Ko-fi:** cari `ko-fi.com/USERNAME` di `index.html` dan ganti dengan halamanmu.
+- **Link Ko-fi:** ubah `href` pada tombol dengan `id="kofi"` di `index.html`.
 - **Warna brand:** ubah `const BRAND = [...]` di bagian script.
 
 ## Privasi
