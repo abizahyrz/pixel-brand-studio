@@ -41,6 +41,7 @@ input[type=color]{width:34px;height:28px;padding:0;border:1px solid var(--bd);ba
 .lay{display:flex;gap:4px;align-items:center;margin:3px 0}
 .lay button{padding:4px 8px}
 .lay .nm{flex:1;text-align:left;overflow:hidden;white-space:nowrap}
+kbd{font:11px/1.4 ui-monospace,Consolas,monospace;border:1px solid var(--bd);border-bottom-width:2px;border-radius:4px;padding:0 4px;margin-left:4px;color:var(--mut);background:var(--card)}
 .foot{max-width:1200px;margin:24px auto 8px;text-align:center}
 .kofi{display:inline-block;background:#29abe0;color:#04202c;padding:10px 18px;border-radius:8px;font-weight:700;text-decoration:none}
 .kofi:hover{filter:brightness(1.1)}
@@ -68,28 +69,39 @@ small{color:var(--mut)}
     <div class="card">
       <h2>Kanvas</h2>
       <div class="row"><select id="preset">
-        <option value="320,180">YouTube 16:9</option><option value="180,320">Shorts/TikTok 9:16</option>
-        <option value="240,240">Kotak 1:1</option><option value="192,240">Instagram 4:5</option>
-        <option value="360,120">Header 3:1</option><option value="c">Kustom</option></select></div>
-      <div class="row"><label>Lebar <input type="number" id="cw" min="64" max="640" style="width:72px"></label>
-        <label>Tinggi <input type="number" id="ch" min="64" max="640" style="width:72px"></label></div>
-      <small>Satuan: sel piksel (64 sampai 640). Ekspor dikali kelipatan bulat.</small>
+        <option value="1280,720">YouTube thumbnail 1280×720</option>
+        <option value="1920,1080">Full HD 1920×1080</option>
+        <option value="1080,1920">Shorts / TikTok / Reels 1080×1920</option>
+        <option value="1080,1350">Instagram 4:5 1080×1350</option>
+        <option value="1080,1080">Instagram kotak 1080×1080</option>
+        <option value="1600,900">X / Twitter post 1600×900</option>
+        <option value="1500,500">X / Twitter header 1500×500</option>
+        <option value="1200,630">Facebook / link 1200×630</option>
+        <option value="c">Kustom</option></select></div>
+      <div class="row"><label>Lebar <input type="number" id="cw" min="256" max="4096" style="width:80px"></label>
+        <label>Tinggi <input type="number" id="ch" min="256" max="4096" style="width:80px"></label></div>
+      <div class="row"><label>Ukuran piksel</label><select id="cell"></select></div>
+      <small>Ukuran asli dalam px. Ukuran piksel = lebar satu sel pixel art: makin kecil, makin halus dan detail.</small>
     </div>
 
     <div class="card">
       <h2>Layer</h2>
       <div id="layers"></div>
       <div class="row">
-        <button id="addT">+ Teks</button>
-        <label class="btn">+ Gambar<input type="file" id="file" accept="image/*" hidden></label>
-        <button id="sample">+ Karakter contoh</button>
+        <button id="addT" title="Tambah teks (T)">＋ Teks <kbd>T</kbd></button>
+        <label class="btn" title="Tambah gambar (I)">🖼 Gambar <kbd>I</kbd><input type="file" id="file" accept="image/*" hidden></label>
+        <button id="sample" title="Tambah karakter contoh">＋ Karakter contoh</button>
       </div>
-      <div class="row"><button id="dup">Duplikat</button><button id="del">Hapus</button></div>
+      <div class="row">
+        <button id="dup" title="Duplikat layer (Ctrl+D)">⧉ Duplikat <kbd>Ctrl+D</kbd></button>
+        <button id="del" title="Hapus layer (Delete)">🗑 Hapus <kbd>Del</kbd></button>
+      </div>
+      <small>Pintasan: <kbd>←↑↓→</kbd> geser 1 sel (<kbd>Shift</kbd> = 5 sel) · <kbd>[</kbd> <kbd>]</kbd> urutan layer</small>
       <div id="imgCtl">
         <div class="row"><label><input type="checkbox" id="smooth"> Halus (tanpa efek pixel)</label></div>
-        <div class="row" id="hzRow"><label>Ukuran</label><input type="range" id="hz" min="5" max="200" value="100"></div>
+        <div class="row" id="hzRow"><label>Ukuran</label><input type="range" id="hz" min="5" max="200" step="0.5" value="100"></div>
         <div class="row" id="pxRow">
-          <label>Zoom</label><input type="range" id="zm" min="1" max="8" value="1">
+          <label>Zoom</label><input type="range" id="zm" min="1" max="12" value="1">
           <label>Resolusi</label><input type="range" id="res" min="16" max="240" value="90">
         </div>
       </div>
@@ -104,7 +116,7 @@ small{color:var(--mut)}
         <button data-s="slim">Slim</button>
         <button data-s="retro">Retro shadow</button>
       </div>
-      <div class="row"><label>Ukuran teks</label><input type="range" id="ts" min="1" max="6" value="3"></div>
+      <div class="row"><label>Ukuran teks</label><input type="range" id="ts" min="1" max="12" value="3"></div>
       <div class="row"><label>Font</label><select id="font"><option>Pixelify Sans</option><option>DotGothic16</option></select></div>
       <div class="row"><label>Detail huruf</label><input type="range" id="fs" min="8" max="40" value="16"></div>
       <div class="row"><label>Import font</label><input type="file" id="fontFile" accept=".ttf,.otf,.woff,.woff2"></div>
@@ -163,7 +175,7 @@ const $ = id => document.getElementById(id);
 
 /* ---------- Grid: semua gambar dibuat di kanvas kecil 320x180 (1 sel = 1 piksel),
    baru diperbesar dengan kelipatan bulat. Itu yang menjaga semuanya tajam. ---------- */
-let W = 320, H = 180, S = 4;
+let W = 320, H = 180, S = 4, CELL = 4;
 const cv = $('cv'), g2 = cv.getContext('2d');
 cv.width = W * S; cv.height = H * S;
 const grid = document.createElement('canvas'); grid.width = W; grid.height = H;
@@ -266,14 +278,16 @@ function paint(ctx, k) {
 }
 
 /* ---------- Render utama ---------- */
-function render() {
+let raf = 0;
+function render() { if (!raf) raf = requestAnimationFrame(() => { raf = 0; draw(); }); }
+function draw() {
   paint(g2, S);
   for (const id of ['p1', 'p2']) {                    // preview feed: sengaja di-smooth, seperti tampilan asli
     const c = $(id), x = c.getContext('2d');
     x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
     x.drawImage(cv, 0, 0, c.width, c.height);
   }
-  if (st.zone) { g2.fillStyle = 'rgba(255,40,40,.4)'; g2.fillRect((W - 40) * S, (H - 18) * S, 36 * S, 14 * S); }
+  if (st.zone) { g2.fillStyle = 'rgba(255,40,40,.4)'; g2.fillRect(W * .86 * S, H * .88 * S, W * .13 * S, H * .1 * S); }
   const b = box(items[cur]);                         // kotak seleksi (hanya tampilan, tidak ikut ekspor)
   g2.setLineDash([8, 6]);
   g2.lineWidth = 3; g2.strokeStyle = '#000'; g2.strokeRect(b[0] * S, b[1] * S, b[2] * S, b[3] * S);
@@ -313,13 +327,13 @@ function detectCell(c) {
   const bg = p => d[p + 3] < 10 || Math.abs(d[p] - d[0]) + Math.abs(d[p + 1] - d[1]) + Math.abs(d[p + 2] - d[2]) < 12;
   const step = Math.max(3, Math.floor(Math.max(w, h) / 300));
   for (let t = Math.min(80, w >> 3); t > 1; t--) {
-    let bad = 0, n = 0;
+    let bad = 0, n = 0; const uniq = new Set();
     for (let Y = 0; Y < h && bad < 40; Y += step) for (let X = 0; X < w; X += step) {
       const p = (Y * w + X) * 4, q = ((Y - Y % t) * w + (X - X % t)) * 4;
       if (bg(p) && bg(q)) continue;
-      n++; if (d[p] !== d[q] || d[p + 1] !== d[q + 1] || d[p + 2] !== d[q + 2]) bad++;
+      n++; uniq.add(d[q] << 16 | d[q + 1] << 8 | d[q + 2]); if (d[p] !== d[q] || d[p + 1] !== d[q + 1] || d[p + 2] !== d[q + 2]) bad++;
     }
-    if (n > 30 && bad / n < .02) return t;
+    if (n > 30 && bad / n < .003 && uniq.size < 2500) return t;   // pixel art asli: nyaris 0 selisih dan palet kecil
   }
   return 1;
 }
@@ -329,13 +343,13 @@ function rebuild(L) {
   const t = document.createElement('canvas'); t.width = sw; t.height = sh;
   const tx = t.getContext('2d', { willReadFrequently: true });
   if (L.k > 1) {   // pixel art: ambil warna tengah tiap blok, tanpa mencampur warna
-    const d = c.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, c.width, c.height).data, id = tx.createImageData(sw, sh);
+    const d = (L.sd || (L.sd = c.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, c.width, c.height))).data, id = tx.createImageData(sw, sh);
     for (let j = 0; j < sh; j++) for (let i = 0; i < sw; i++) {
       const p = (Math.min(c.height - 1, Math.floor((j + .5) * f)) * c.width + Math.min(c.width - 1, Math.floor((i + .5) * f))) * 4;
       id.data.set(d.subarray(p, p + 4), (j * sw + i) * 4);
     }
     tx.putImageData(id, 0, 0);
-  } else { tx.imageSmoothingQuality = 'high'; tx.drawImage(c, 0, 0, sw, sh); }   // foto/ilustrasi halus: perkecil dengan smoothing
+  } else { tx.imageSmoothingQuality = 'high'; tx.drawImage(L.work || c, 0, 0, sw, sh); }   // foto/ilustrasi halus: perkecil dengan smoothing
   const e = tx.getImageData(0, 0, sw, sh), d2 = e.data;
   const same = p => Math.abs(d2[p] - d2[0]) + Math.abs(d2[p + 1] - d2[1]) + Math.abs(d2[p + 2] - d2[2]) < 12;
   const flat = d2[3] > 200 && [[sw - 1, 0], [0, sh - 1], [sw - 1, sh - 1]].every(([X, Y]) => same((Y * sw + X) * 4));
@@ -359,17 +373,20 @@ function rebuild(L) {
   L.sprite = s;
 }
 // Mode halus: gambar digambar langsung di resolusi ekspor (tidak lewat grid pixel). Salinan kerja maks 2400px supaya cepat.
-function fitSmooth(L) {
+function mkWork(L) {
   if (!L.work) {
     const c = L.src, f = Math.min(1, 2400 / Math.max(c.width, c.height));
     L.work = document.createElement('canvas'); L.work.width = Math.round(c.width * f); L.work.height = Math.round(c.height * f);
     const x = L.work.getContext('2d'); x.imageSmoothingQuality = 'high'; x.drawImage(c, 0, 0, L.work.width, L.work.height);
   }
+}
+function fitSmooth(L) {
+  mkWork(L);
   L.hc = Math.min(H, W * L.src.height / L.src.width); L.wc = L.hc * L.src.width / L.src.height;
   L.tx = (W - L.wc) / 2; L.ty = (H - L.hc) / 2;
 }
 function addImage(L) {
-  rebuild(L);
+  mkWork(L); rebuild(L);
   const s = L.sprite; L.ts = Math.max(1, Math.min(8, Math.floor(150 / s.height)));
   L.tx = Math.max(0, Math.round(W * .68 - s.width * L.ts / 2)); L.ty = Math.max(0, H - s.height * L.ts - 8);
   if (L.smooth) fitSmooth(L);
@@ -498,13 +515,25 @@ $('smooth').onchange = e => { const l = items[cur]; l.smooth = e.target.checked;
 $('hz').oninput = e => { const l = items[cur]; l.hc = H * e.target.value / 100; l.wc = l.hc * l.src.width / l.src.height; render(); };
 $('zm').oninput = e => { st.ts = +e.target.value; render(); };
 $('res').oninput = e => { st.res = +e.target.value; rebuild(items[cur]); render(); };
-$('preset').onchange = e => { if (e.target.value !== 'c') { const [w, h] = e.target.value.split(','); resize(+w, +h); render(); } };
-['cw', 'ch'].forEach(id => $(id).onchange = () => { $('preset').value = 'c'; resize(+$('cw').value, +$('ch').value); render(); });
+$('preset').onchange = e => { if (e.target.value !== 'c') { const [w, h] = e.target.value.split(','); setCanvas(+w, +h, 0); render(); } };
+['cw', 'ch'].forEach(id => $(id).onchange = () => { $('preset').value = 'c'; setCanvas(+$('cw').value, +$('ch').value, CELL); render(); });
+$('cell').onchange = () => {   // ganti ukuran piksel: posisi dipertahankan dalam px asli
+  const nc = +$('cell').value, r = CELL / nc;
+  items.forEach(l => { l.tx = Math.round(l.tx * r); l.ty = Math.round(l.ty * r); if (l.smooth) { l.hc *= r; l.wc *= r; } });
+  setCanvas(W * CELL, H * CELL, nc); render();
+};
 // Tombol panah menggeser layer terpilih 1 sel, Delete menghapusnya
 document.onkeydown = e => {
   if (/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
   const l = items[cur], d = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key];
-  if (d) { l.tx += d[0]; l.ty += d[1]; render(); e.preventDefault(); } else if (e.key === 'Delete') $('del').click();
+  const k = e.key.toLowerCase(), mod = e.ctrlKey || e.metaKey;
+  if (d) { const m = e.shiftKey ? 5 : 1; l.tx += d[0] * m; l.ty += d[1] * m; render(); e.preventDefault(); }
+  else if (e.key === 'Delete') $('del').click();
+  else if (mod && k === 'd') { e.preventDefault(); $('dup').click(); }
+  else if (!mod && k === 't') $('addT').click();
+  else if (!mod && k === 'i') $('file').click();
+  else if (e.key === ']') move(cur, 1);
+  else if (e.key === '[') move(cur, -1);
 };
 
 // Alat pilih: klik memilih layer teratas di bawah kursor, seret untuk memindah (dibulatkan per sel)
@@ -535,7 +564,7 @@ cv.onpointerup = cv.onpointercancel = () => drag = null;
 let dlCap = null;
 try { window.claude && claude.use('downloads').then(x => dlCap = x).catch(() => {}); } catch (e) {}
 $('dl').onclick = async () => {
-  const k = +$('sz').value, c = document.createElement('canvas');
+  const k = CELL * +$('sz').value, c = document.createElement('canvas');
   c.width = W * k; c.height = H * k;
   const x = c.getContext('2d'); paint(x, k);
   const blob = await new Promise(r => c.toBlob(r, 'image/png'));
@@ -560,19 +589,26 @@ function useSample() {
   addImage({ type: 'image', vis: true, op: 1, name: 'karakter contoh', src: sc, k: 2, res: ch });
 }
 
-// Ganti ukuran kanvas (dalam sel). Tampilan dikali S (kelipatan bulat), ekspor dikali 4, 6, atau 8.
-function resize(w, h) {
-  W = Math.max(64, Math.min(640, w | 0 || 320)); H = Math.max(64, Math.min(640, h | 0 || 180));
-  S = Math.max(2, Math.min(4, Math.floor(1280 / W)));
+// Kanvas = ukuran asli (px). Grid pixel = ukuran asli / ukuran piksel (CELL), jadi hasil ekspor 1x sama persis dengan standar platform.
+const CELLS = [2, 3, 4, 5, 6, 8, 10, 12, 15, 16, 20];
+const validCells = (ow, oh) => CELLS.filter(c => ow % c === 0 && oh % c === 0 && ow / c <= 960 && oh / c <= 960);
+function setCanvas(ow, oh, cell) {
+  ow = Math.max(256, Math.min(4096, ow | 0 || 1280)); oh = Math.max(256, Math.min(4096, oh | 0 || 720));
+  let vc = validCells(ow, oh);
+  if (!vc.length) { ow = Math.round(ow / 20) * 20; oh = Math.round(oh / 20) * 20; vc = validCells(ow, oh); }
+  if (!vc.length) vc = [4];
+  if (!vc.includes(cell)) cell = vc.reduce((a, b) => Math.abs(ow / b - 320) < Math.abs(ow / a - 320) ? b : a);   // default: grid sekitar 320 sel
+  CELL = cell; W = ow / cell; H = oh / cell;
+  S = Math.max(1, Math.min(cell, Math.floor(1280 / Math.max(W, H))));
   cv.width = W * S; cv.height = H * S; grid.width = W; grid.height = H; gg.imageSmoothingEnabled = false;
   for (const [id, pw] of [['p1', 246], ['p2', 168]]) { const c = $(id); c.width = pw; c.height = Math.round(pw * H / W); }
-  $('cw').value = W; $('ch').value = H;
-  const keep = $('sz').value || '4';
-  $('sz').innerHTML = [4, 6, 8].map(k => `<option value="${k}">${W * k} × ${H * k}</option>`).join('');
-  $('sz').value = keep;
+  $('cw').value = ow; $('ch').value = oh;
+  $('cell').innerHTML = vc.map(c => `<option value="${c}">${c} px (${ow / c} × ${oh / c} sel)</option>`).join(''); $('cell').value = cell;
+  const keep = $('sz').value || '1';
+  $('sz').innerHTML = [1, 2].map(m => `<option value="${m}">${ow * m} × ${oh * m}${m > 1 ? ' (2×)' : ''}</option>`).join(''); $('sz').value = keep;
 }
 // Init
-resize(W, H);
+setCanvas(1280, 720, 4);
 swatches($('brand'), BRAND); help(); useSample();
 items.unshift(items.pop()); cur = 1; sync(); render();   // karakter contoh di layer paling bawah
 // Render ulang setelah font pixel selesai dimuat (cache dibuang supaya bitmap dihitung ulang)
